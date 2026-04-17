@@ -1,0 +1,118 @@
+// ==UserScript==
+// @name         Twitch Chat over Youtube
+// @match        https://www.youtube.com/*
+// @run-at       document-end
+// @grant        GM.xmlHttpRequest
+// @grant        GM.getValue
+// @grant        GM.setValue
+// @connect      raw.githubusercontent.com
+// ==/UserScript==
+
+// You must add twitch.tv as a security exception in Firefox Settings -> Privacy and Security -> Cookies and Site Data -> Manage Exceptions
+
+(function () {
+
+    let CHANNEL_MAP = {};
+    let CHANNEL_MAP_READY = false;
+    const CACHE_DURATION = 86400 * 1000; // 24 hours
+
+    async function loadChannelMap() {
+        const now = Date.now();
+        const cached = await GM.getValue("CHANNEL_MAP_CACHE", null);
+        const cachedTime = await GM.getValue("CHANNEL_MAP_TIME", 0);
+
+        if (cached && (now - cachedTime) < CACHE_DURATION) {
+            try {
+                CHANNEL_MAP = JSON.parse(cached);
+                CHANNEL_MAP_READY = true;
+                console.log("[TCY] Loaded channel map from cache");
+                return;
+            } catch {}
+        }
+
+        GM.xmlHttpRequest({
+            method: "GET",
+            url: "https://raw.githubusercontent.com/ColonialDagger/TwitchChatOverYoutube/refs/heads/main/channel_map.json",
+            onload: async (response) => {
+                try {
+                    CHANNEL_MAP = JSON.parse(response.responseText);
+                    CHANNEL_MAP_READY = true;
+                    await GM.setValue("CHANNEL_MAP_CACHE", response.responseText);
+                    await GM.setValue("CHANNEL_MAP_TIME", now);
+                    console.log("[TCY] Channel map updated from GitHub");
+                } catch (e) {
+                    console.error("[TCY] Failed to parse channel map:", e);
+                }
+            }
+        });
+    }
+
+    loadChannelMap();
+
+    function getYouTubeChannelId() {
+        const channelLink = document.querySelector('#owner a[href^="/channel/"]');
+        if (channelLink) {
+            const id = channelLink.getAttribute("href").split("/")[2];
+            if (id) return id;
+        }
+
+        const handleLink = document.querySelector('#owner a[href^="/@"]');
+        if (handleLink) {
+            return handleLink.getAttribute("href").slice(2);
+        }
+
+        return null;
+    }
+
+    function getTwitchChannel() {
+        if (!CHANNEL_MAP_READY) return null;
+        const ytId = getYouTubeChannelId();
+        return CHANNEL_MAP[ytId] || null;
+    }
+
+    // Detect ATR detailpage request
+    function isAtrDetail(url) {
+        return (
+            typeof url === "string" &&
+            url.includes("/api/stats/atr") &&
+            url.includes("el=detailpage")
+        );
+    }
+
+    function resetChat() {
+        console.log("[TCY] ATR detailpage detected — resetting chat");
+        document.querySelector("#twitch-chat-iframe")?.remove();
+        document.querySelector("#chatframe")?.remove();
+    }
+
+    // XHR hook (YouTube uses XHR for ATR)
+    (function() {
+        const origOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url) {
+            if (isAtrDetail(url)) resetChat();
+            return origOpen.apply(this, arguments);
+        };
+    })();
+
+    // Inject Twitch chat when needed
+    const observer = new MutationObserver(() => {
+        if (!location.pathname.startsWith("/watch")) return;
+
+        const twitchChannel = getTwitchChannel();
+        if (!twitchChannel) return;
+
+        const chat = document.querySelector("#chat");
+        if (!chat || document.querySelector("#twitch-chat-iframe")) return;
+
+        document.querySelector("#chatframe")?.remove();
+
+        const iframe = document.createElement("iframe");
+        iframe.id = "twitch-chat-iframe";
+        iframe.src = `https://www.twitch.tv/embed/${twitchChannel}/chat?parent=youtube.com&parent=www.youtube.com&darkpopout`;
+        iframe.style.cssText = "width:100%;height:100%;border:none;";
+        chat.appendChild(iframe);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+})();
