@@ -1,0 +1,7 @@
+# Twitch Chat over YouTube
+
+This script replaces the YouTube live stream chat frame with their corresponding Twitch channel chat frame. Works with emote extensions, but the extension menu can only be accessed via twitch.tv.
+
+This extension cannot and will not claim channel points, but all other features are still accessible.
+
+If you want to add channel maps to the JSON, make a pull request or open an issue.
