@@ -13,7 +13,7 @@ If you want to add channel maps to the JSON, make a pull request or open an issu
 | Violetmonkey | [Firefox](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/) | [Chrome](https://chromewebstore.google.com/detail/jinjaccalgkegednnccohejagnlnfdag?utm_source=item-share-cb) |
 | Tampermonkey | [Firefox](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/)  | [Chrome](https://chromewebstore.google.com/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo?utm_source=item-share-cb) |
 
-# Usage
+# Installation
 
 Add the script to VioletMonkey/Tampermonkey via the following URL:
 
@@ -22,3 +22,9 @@ https://raw.githubusercontent.com/ColonialDagger/TwitchChatOverYoutube/refs/head
 ```
 
 Alternatively, copy the entire contents of the `script.json` file into a new script.
+
+# Usage
+
+The script will automatically replace YouTube chat with the Twitch chat window when a mapping is present in `channel_map.json`.
+
+Once Twitch chat is loaded, you can switch between Twitch chat and YouTube chat with a set hotkey. The default hotkey is `F8`.
