@@ -8,7 +8,7 @@ If you want to add channel maps to the JSON, make a pull request or open an issu
 
 # Supported Extensions
 
-| Extension    | Firefox Add-on                                                           | Chrome Webstore                                                                                              |
+| Extension    | Firefox                                                                  | Chrome                                                                                                       |
 |--------------|--------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
 | Violetmonkey | [Firefox](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/) | [Chrome](https://chromewebstore.google.com/detail/jinjaccalgkegednnccohejagnlnfdag?utm_source=item-share-cb) |
 | Tampermonkey | [Firefox](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/)  | [Chrome](https://chromewebstore.google.com/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo?utm_source=item-share-cb) |
