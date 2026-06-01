@@ -14,4 +14,4 @@ Add the script to VioletMonkey via the following URL:
 https://raw.githubusercontent.com/ColonialDagger/TwitchChatOverYoutube/refs/heads/main/script.json
 ```
 
-Alternatively, copy the entire contents of the `channel_map.json` file into a new script.
+Alternatively, copy the entire contents of the `script.json` file into a new script.
