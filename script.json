@@ -81,9 +81,17 @@
 
     function resetChat() {
         console.log("[TCY] ATR detailpage detected — resetting chat");
+
+        // Always remove Twitch chat if present
         document.querySelector("#twitch-chat-iframe")?.remove();
-        document.querySelector("#chatframe")?.remove();
+
+        // Only remove YouTube chat if a Twitch mapping exists
+        const twitchChannel = getTwitchChannel();
+        if (twitchChannel) {
+            document.querySelector("#chatframe")?.remove();
+        }
     }
+
 
     // XHR hook (YouTube uses XHR for ATR)
     (function() {
