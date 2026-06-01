@@ -6,9 +6,14 @@ This extension cannot and will not claim channel points, but all other features 
 
 If you want to add channel maps to the JSON, make a pull request or open an issue.
 
+# Supported Extensions
+
+* Violetmonkey: [Chrome](https://chromewebstore.google.com/detail/jinjaccalgkegednnccohejagnlnfdag?utm_source=item-share-cb) | [Firefox](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/)
+* Tampermonkey: [Chrome](https://chromewebstore.google.com/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo?utm_source=item-share-cb) | [Firefox](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/)
+
 # Usage
 
-Add the script to VioletMonkey via the following URL:
+Add the script to VioletMonkey/Tampermonkey via the following URL:
 
 ```
 https://raw.githubusercontent.com/ColonialDagger/TwitchChatOverYoutube/refs/heads/main/script.json
