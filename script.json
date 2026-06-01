@@ -10,6 +10,8 @@
 
 // You must add twitch.tv as a security exception in Firefox Settings -> Privacy and Security -> Cookies and Site Data -> Manage Exceptions
 
+let HOTKEY = "F8"; // Hotkey to toggle chats
+
 (function () {
 
     let CHANNEL_MAP = {};
@@ -85,13 +87,13 @@
         // Always remove Twitch chat if present
         document.querySelector("#twitch-chat-iframe")?.remove();
 
-        // Only remove YouTube chat if a Twitch mapping exists
+        // Only hide YouTube chat if a Twitch mapping exists
         const twitchChannel = getTwitchChannel();
         if (twitchChannel) {
-            document.querySelector("#chatframe")?.remove();
+            const ytChat = document.querySelector("#chatframe");
+            if (ytChat) ytChat.style.display = "none";
         }
     }
-
 
     // XHR hook (YouTube uses XHR for ATR)
     (function() {
@@ -112,7 +114,9 @@
         const chat = document.querySelector("#chat");
         if (!chat || document.querySelector("#twitch-chat-iframe")) return;
 
-        document.querySelector("#chatframe")?.remove();
+        // Hide YouTube chat instead of removing it
+        const ytChat = document.querySelector("#chatframe");
+        if (ytChat) ytChat.style.display = "none";
 
         const iframe = document.createElement("iframe");
         iframe.id = "twitch-chat-iframe";
@@ -122,5 +126,36 @@
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
+
+    // Toggle between Twitch and YouTube chat
+    function toggleChat() {
+        const ytChat = document.querySelector("#chatframe");
+        const twitchChat = document.querySelector("#twitch-chat-iframe");
+
+        if (twitchChat) {
+            const isTwitchVisible = twitchChat.style.display !== "none";
+
+            if (isTwitchVisible) {
+                twitchChat.style.display = "none";
+                ytChat?.style.removeProperty("display");
+            } else {
+                ytChat?.style.setProperty("display", "none");
+                twitchChat.style.removeProperty("display");
+            }
+
+            console.log("[TCY] Chat toggled");
+            return;
+        }
+
+        console.log("[TCY] No Twitch chat available — toggle ignored");
+    }
+
+    // Hotkey listener
+    document.addEventListener("keydown", (e) => {
+        if (e.key === HOTKEY) {
+            e.preventDefault();
+            toggleChat();
+        }
+    });
 
 })();
