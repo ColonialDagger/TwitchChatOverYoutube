@@ -5,3 +5,13 @@ This script replaces the YouTube live stream chat frame with their corresponding
 This extension cannot and will not claim channel points, but all other features are still accessible.
 
 If you want to add channel maps to the JSON, make a pull request or open an issue.
+
+# Usage
+
+Add the script to VioletMonkey via the following URL:
+
+```
+https://raw.githubusercontent.com/ColonialDagger/TwitchChatOverYoutube/refs/heads/main/script.json
+```
+
+Alternatively, copy the entire contents of the `channel_map.json` file into a new script.
