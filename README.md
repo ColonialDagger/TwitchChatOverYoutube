@@ -28,3 +28,7 @@ Alternatively, copy the entire contents of the `script.json` file into a new scr
 The script will automatically replace YouTube chat with the Twitch chat window when a mapping is present in `channel_map.json`.
 
 Once Twitch chat is loaded, you can switch between Twitch chat and YouTube chat with a set hotkey. The default hotkey is `F8`.
+
+# AI Disclaimer
+
+This is vibe-coded.
