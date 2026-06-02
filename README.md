@@ -21,6 +21,9 @@ Add the script to VioletMonkey/Tampermonkey via the following URL:
 https://raw.githubusercontent.com/ColonialDagger/TwitchChatOverYoutube/refs/heads/main/script.json
 ```
 
+<img width="842" height="309" alt="image" src="https://github.com/user-attachments/assets/6ead14c0-ec54-4fc3-a02d-210fd52e5898" />
+
+
 Alternatively, copy the entire contents of the `script.json` file into a new script.
 
 # Usage
